@@ -45,6 +45,12 @@ Mac
 
 ```
 
+## Related
+
+[dorothy](https://github.com/daveray/dorothy): Hiccup-style generation of Graphviz graphs in Clojure and ClojureScript.
+
+Dorothy supports more of `graphviz`'s features out of the box. Dorothy works by first generating dot DSL code and then shelling out to the `dot` command line tool. `clj-graphviz` works directly with graphviz's underlying c library. The hope is to provide tighter integration with the graphviz library and expose underlying features that are hard to access via the `dot` command line tool (like graph layout).
+
 ## Future Work
 
 Graphviz offers many options to tweak how graphs are rendered. It also offers graph layout without rendering. Exposing more of graphviz's functionality with a friendly clojure interface is a natural next step. Until then, the full graphviz API is available in its form under `com.phronemophobic.clj-graphviz.raw.gvc` and `com.phronemophobic.clj-graphviz.raw.cgraph`.
