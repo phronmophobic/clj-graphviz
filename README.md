@@ -20,6 +20,18 @@ deps.edn dependency:
 com.phronemophobic/clj-graphviz {:mvn/version "0.1.0"}
 ```
 
+## libgraphviz
+
+clj-graphviz needs libgraphviz to installed on the system. The easiest way to do that is typically through a package manager.
+
+Examples:
+
+Linux
+`sudo apt install libgraphviz-dev`
+
+Mac
+`sudo port install graphviz-devel`
+
 ## Usage
 
 ```clojure
