@@ -12,7 +12,15 @@
     :jpg
     :gif
     :svg
-    :pdf})
+    :pdf
+    :bmp
+    :eps
+    :ico
+    :ps
+    :ps2
+    :tif
+    :tiff
+    :wbmp})
 (def supported-layout-algorithms
   #{:dot
     :neato
@@ -40,7 +48,7 @@
 
   Options is map of the keys: `:filename`, `:format`, `:layout-algorithm`.
   `:filename`: The name of the file to save the image to. (default graph.png)
-  `:format`: One of :png, :jpeg, :jpg, :gif, :svg, or :pdf
+  `:format`: One of `:png` `:jpeg` `:jpg` `:gif` `:svg` `:pdf` `:bmp` `:eps` `:ico` `:ps` `:ps2` `:tif` `:tiff` `:wbmp` 
   `:layout-algorithm`: one of the following:
       `:dot` (default) A Sugiyama-style hierarchical layout [STT81, GKNV93].
       `:neato` A “symmetric” layout algorithm based on stress reduction. This is a variation of multidimensional
