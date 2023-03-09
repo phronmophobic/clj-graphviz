@@ -11,13 +11,13 @@ For direct access to gvc and cgraph, check out the `com.phronemophobic.clj-graph
 Leiningen dependency:
 
 ```clojure
-[com.phronemophobic/clj-graphviz "0.1.0"]
+[com.phronemophobic/clj-graphviz "0.2.0"]
 ```
 
 deps.edn dependency:
 
 ```clojure
-com.phronemophobic/clj-graphviz {:mvn/version "0.1.0"}
+com.phronemophobic/clj-graphviz {:mvn/version "0.2.0"}
 ```
 
 ## libgraphviz
