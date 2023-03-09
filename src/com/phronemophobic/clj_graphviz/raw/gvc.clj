@@ -39,7 +39,7 @@
                  ))))
 
 (def api
-  #_(clong/easy-api "/opt/local/include/graphviz/gvc.h")
+  #_((requiring-resolve 'com.phronemophobic.clong.clang/easy-api) "/opt/local/include/graphviz/gvc.h")
   (with-open [rdr (io/reader
                    (io/resource
                     "com/phronemophobic/clj-graphviz/raw/gvc/api.edn"))
