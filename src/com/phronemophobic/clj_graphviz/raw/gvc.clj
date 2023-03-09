@@ -23,7 +23,7 @@
 (def ^:no-doc libgvc
   (com.sun.jna.NativeLibrary/getInstance "gvc"))
 
-(defn dump-api []
+(defn ^:private dump-api []
   (let [outf (io/file
               "resources"
               "com"

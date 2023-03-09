@@ -23,11 +23,11 @@
   (com.sun.jna.NativeLibrary/getInstance "cgraph"))
 
 
-(def simple-rets
+(def ^:private simple-rets
   #{[:coffi.mem/pointer :clong/Agraph_s]
     [:coffi.mem/pointer :clong/Agedge_s]
     [:coffi.mem/pointer :clong/Agnode_s]})
-(defn simplify-rets [api]
+(defn ^:private simplify-rets [api]
   ;; Change all Agraph_t* return types to pointer
   (specter/setval [:functions
                    specter/ALL
@@ -38,7 +38,7 @@
 
 
 
-(defn dump-api []
+(defn ^:private dump-api []
   (let [outf (io/file
               "resources"
               "com"
@@ -63,8 +63,6 @@
     (edn/read rdr)))
 
 (gen/def-api libcgraph api)
-
-
 
 (defn set->Agdesc [flags]
   (reduce
