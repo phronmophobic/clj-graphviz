@@ -1,4 +1,4 @@
-# com.phronemophobic/clj-graphviz
+# clj-graphviz
 
 A wrapper of graphviz's underlying c libraries gvc and cgraph. 
 
