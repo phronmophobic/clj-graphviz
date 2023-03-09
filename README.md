@@ -39,10 +39,10 @@ Mac
 ```clojure
 (require '[com.phronemophobic.clj-graphviz :refer [render-graph]])
 
-(render-graph {:edge [["a" "b"]]})
+(render-graph {:edges [["a" "b"]]})
 ;; writes to graph.png
 
-(render-graph {:edge [["a" "b"]]}
+(render-graph {:edges [["a" "b"]]}
               {:filename "my-graph.png"})
 
 ```
