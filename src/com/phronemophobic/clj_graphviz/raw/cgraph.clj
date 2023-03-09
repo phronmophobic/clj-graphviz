@@ -36,6 +36,26 @@
                   api))
 
 
+(def structs-with-bitfields
+  #{:clong/Agtag_s
+    :clong/Agdesc_s})
+(defn ^:private ignore-bitfielded-structs [api]
+  (specter/setval
+   [:structs
+    specter/ALL
+    (fn [struct]
+      (structs-with-bitfields (:id struct)))]
+   specter/NONE
+   api))
+(defn ^:private fix-agdesc [api]
+  (specter/setval
+   [:functions
+    specter/ALL
+    :function/args
+    specter/ALL
+    #(= :clong/Agdesc_s %)]
+   :coffi.mem/int
+   api))
 
 (defn ^:private dump-api []
   (let [outf (io/file
@@ -51,7 +71,9 @@
       (write-edn w
                  (-> ((requiring-resolve 'com.phronemophobic.clong.clang/easy-api)
                       "/opt/local/include/graphviz/cgraph.h")
-                     simplify-rets)))))
+                     simplify-rets
+                     ignore-bitfielded-structs
+                     fix-agdesc)))))
 
 (def api
   #_(-> (clong/easy-api "/opt/local/include/graphviz/cgraph.h")
@@ -64,13 +86,18 @@
 
 (gen/def-api libcgraph api)
 
+;; workaround for bitfields
 (defn set->Agdesc [flags]
-  (reduce
-   (fn [agdesc flag]
-     (doto agdesc
-       (.writeField (name flag) (int 1))))
-   (com.phronemophobic.clj_graphviz.raw.cgraph.structs.Agdesc_s.)
-   flags))
+  (let [masks {:directed 2r1
+               :strict 2r10
+               :maingraph 2r1000}]
+    (int
+     (reduce
+      (fn [i flag]
+        (bit-or i (get masks flag)))
+      (:maingraph masks)
+      flags))))
+
 
 ;; Agdesc_t Agdirected = { .directed = 1, .maingraph = 1 };
 ;; Agdesc_t Agstrictdirected = { .directed = 1, .strict = 1, .maingraph = 1 };
