@@ -1,6 +1,5 @@
 (ns com.phronemophobic.clj-graphviz.raw.gvc
-  (:require [com.phronemophobic.clong.clang :as clong]
-            [com.phronemophobic.clong.gen.jna :as gen]
+  (:require [com.phronemophobic.clong.gen.jna :as gen]
             [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.java.io :as io]
@@ -35,7 +34,8 @@
     (.mkdirs (.getParentFile outf))
     (with-open [w (io/writer outf)]
       (write-edn w
-                 (clong/easy-api "/opt/local/include/graphviz/gvc.h")
+                 ((requiring-resolve 'com.phronemophobic.clong.clang/easy-api)
+                  "/opt/local/include/graphviz/gvc.h")
                  ))))
 
 (def api
