@@ -23,6 +23,7 @@ com.phronemophobic/membrane {:mvn/version "0.11.1.1-beta"}
 ## Usage
 
 ```clojure
+(require '[com.phronemophobic.clj-graphviz :refer [render-graph]])
 
 (render-graph {:edge [["a" "b"]]})
 ;; writes to graph.png
