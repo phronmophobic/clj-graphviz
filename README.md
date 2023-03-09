@@ -6,6 +6,8 @@ A high level wrapper for rendering graphs can be found at `com.phronemophobic.cl
 
 For direct access to gvc and cgraph, check out the `com.phronemophobic.clj-graphviz.raw.gvc` and `com.phronemophobic.clj-graphviz.raw.cgraph` namespaces.
 
+Built with [clong](https://github.com/phronmophobic/clong).
+
 ## Dependency
 
 Leiningen dependency:
