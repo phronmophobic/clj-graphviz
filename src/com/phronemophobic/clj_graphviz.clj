@@ -127,4 +127,3 @@
          (gvc/gvFreeContext gvc)
          nil)))))
 
-render-graph
