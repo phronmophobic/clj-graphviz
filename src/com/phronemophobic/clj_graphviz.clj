@@ -1,11 +1,9 @@
 (ns com.phronemophobic.clj-graphviz
-  (:require [com.phronemophobic.clong.clang :as clong]
-            [com.phronemophobic.clong.gen.jna :as gen]
+  (:require [com.phronemophobic.clj-graphviz.raw.cgraph :as cgraph]
             [com.phronemophobic.clj-graphviz.raw.gvc :as gvc]
             [clojure.java.io :as io]
             [clojure.string :as str]
-            clojure.set
-            [com.phronemophobic.clj-graphviz.raw.cgraph :as cgraph])
+            clojure.set)
   (:gen-class))
 
 (def supported-formats
