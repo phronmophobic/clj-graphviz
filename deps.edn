@@ -17,7 +17,10 @@
    ;; /opt/local/lib:
    :extra-deps {com.phronemophobic.membrane/skialib-macosx-aarch64 { :mvn/version "0.12-beta"
                                                                  ;;:local/root "../membrane2/csource/macos-aarch64"
-                                                                 }
-                }}
+                                                                 }}}
+
+  :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.3" :git/sha "0d20256"}
+                 slipset/deps-deploy {:mvn/version "RELEASE"}}
+          :ns-default build}
 
   }}
