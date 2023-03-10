@@ -8,6 +8,9 @@
  :aliases
  {
 
+  :macports
+  {:jvm-opts ["-Djna.library.path=/opt/local/lib"]}
+
   :project
   {:jvm-opts ["-Djna.library.path=../llvm-project/build/out/lib:/opt/local/lib"
 
