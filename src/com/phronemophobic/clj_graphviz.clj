@@ -103,8 +103,6 @@
               (when-not (string? node-id)
                 (throw (ex-info "Node ids must be strings"
                                 {:node-id node-id})))
-              (assert (string? node-id)
-                      "Node ids must be strings.")
               (let [node* (or (get nodes* node-id)
                               (cgraph/agnode g* node-id 1))]
                 (assoc nodes* node-id node*)))
