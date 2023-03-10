@@ -98,6 +98,15 @@
       (:maingraph masks)
       flags))))
 
+;; should match definitions
+;; (.getInt (.getGlobalVariableAddress libcgraph "Agdirected")
+;;          0)
+;; (.getInt (.getGlobalVariableAddress libcgraph "Agstrictdirected")
+;;          0)
+;; (.getInt (.getGlobalVariableAddress libcgraph "Agundirected")
+;;          0)
+;; (.getInt (.getGlobalVariableAddress libcgraph "Agstrictundirected")
+;;          0)
 
 ;; Agdesc_t Agdirected = { .directed = 1, .maingraph = 1 };
 ;; Agdesc_t Agstrictdirected = { .directed = 1, .strict = 1, .maingraph = 1 };
