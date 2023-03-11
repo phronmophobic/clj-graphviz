@@ -3,7 +3,11 @@
             [clojure.edn :as edn]
             [clojure.java.io :as io]
             [com.rpl.specter :as specter])
+  (:import java.lang.ref.Cleaner
+           com.sun.jna.Pointer)
   (:gen-class))
+
+(def cleaner (Cleaner/create))
 
 (defn ^:private write-edn [w obj]
   (binding [*print-length* nil
@@ -116,3 +120,124 @@
 (def Agstrictdirected (set->Agdesc #{:directed :strict :maingraph}))
 (def Agundirected (set->Agdesc #{ :maingraph}))
 (def Agstrictundirected (set->Agdesc #{ :strict  :maingraph}))
+
+;; object tags
+(def AGRAPH 0)
+(def AGNODE 1)
+(def AGOUTEDGE 2)
+(def AGINEDGE 3)
+(def AGEDGE AGOUTEDGE)
+
+(def ^:private kw->node-type
+  {:node AGNODE
+   :graph AGRAPH
+   :edge AGEDGE})
+
+(defn ^:private normalize-node [n]
+  (if (string? n)
+    {:id n}
+    ;; assume map
+    n))
+
+(defn ^:private make-node [g* default-attributes node]
+  (if-let [node-id (:id node)]
+    (let [node* (agnode g* node-id 1)]
+      (reduce
+       (fn [node* [k v]]
+         (when-not (get-in default-attributes [:node k])
+           (throw (ex-info "Node attributes must have defaults."
+                           {:node node})))
+         (agset node* k v)
+         node*)
+       node*
+       (dissoc node :id)))
+    ;; else
+    (throw
+     (ex-info "Missing node :id"
+              {:node node}))))
+
+(defn ^:private normalize-edge [e]
+  (if (vector? e)
+    {:from (first e)
+     :to (second e)}
+    ;; assume map
+    e))
+
+
+(defn make-cgraph [{:keys [nodes
+                           edges
+                           default-attributes
+                           flags]
+                    :as graph}]
+  (let [graph-desc (set->Agdesc
+                    (conj (clojure.set/intersection
+                           flags
+                           #{:directed :strict})
+                          :maingraph))
+        g* (agopen "" graph-desc nil)
+        ;; add default attributes
+        g* (reduce
+            (fn [g* [node-type attrs]]
+              (let [nt (kw->node-type node-type)]
+                (when-not nt
+                  (throw (ex-info "Invalid node type."
+                                  {:node-type node-type})))
+                (reduce
+                 (fn [g* [k v]]
+                   (agattr g* (kw->node-type node-type)
+                           k v)
+                   g*)
+                 g*
+                 attrs)))
+            g*
+            default-attributes)
+
+        ;; add nodes
+        nodes*
+        (reduce
+         (fn [nodes* node]
+           (when-not (or (string? node)
+                         (map? node))
+             (throw (ex-info "Nodes must be strings or maps."
+                             {:node node})))
+           (let [node (normalize-node node)
+                 node-id (:id node)
+                 node* (or (get nodes* node-id)
+                           (make-node g* default-attributes node))]
+             (assoc nodes* node-id node*)))
+         {}
+         nodes)]
+    ;; add edges
+    (reduce
+     (fn [nodes* edge]
+       (let [edge (normalize-edge edge)
+             {:keys [from to]} edge
+
+             from-node (normalize-node from)
+             from-id (:id from-node)
+             from* (or (get nodes* from-id)
+                       (make-node g* default-attributes from-node))
+             nodes* (assoc nodes* from-id from*)
+
+             to-node (normalize-node to)
+             to-id (:id to-node)
+             to* (or (get nodes* to-id)
+                     (make-node g* default-attributes to-node))
+             nodes* (assoc nodes* to-id to*)
+             edge* (agedge g* from* to* "" 1)]
+         (doseq [[k v] (dissoc edge :from :to)]
+           (when-not (get-in default-attributes [:edge k])
+             (throw (ex-info "Edge attributes must have defaults."
+                             {:edge edge}))
+             (agset edge* k v)))
+         nodes*))
+     nodes*
+     edges)
+
+    ;; be tidy
+    (let [ptr (Pointer/nativeValue (.getPointer g*))]
+      (.register cleaner g*
+                 (fn []
+                   (agclose (Pointer. ptr)))))
+
+    g*))
