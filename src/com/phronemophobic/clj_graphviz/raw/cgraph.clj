@@ -224,7 +224,7 @@
              to* (or (get nodes* to-id)
                      (make-node g* default-attributes to-node))
              nodes* (assoc nodes* to-id to*)
-             edge* (agedge g* from* to* "" 1)]
+             edge* (agedge g* from* to* (str (gensym)) 1)]
          (doseq [[k v] (dissoc edge :from :to)]
            (when-not (get-in default-attributes [:edge k])
              (throw (ex-info "Edge attributes must have defaults."
