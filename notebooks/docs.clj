@@ -197,37 +197,41 @@
 
 ;; ## Attribute Descriptions
 
-;; Below is table of the attributes for nodes, edges, and graphs. If an attribute for a node or edge does not have a default, then one must be provided via `:default-attributes`.
+;; You can find more details about available attributes at [graphviz attributes](https://graphviz.org/doc/info/attrs.html). If an attribute for a node or edge does not have a default, then one must be provided via `:default-attributes`.
 
-;; ### Node Attributes
-(clerk/with-viewer table-viewer-no-pagination
-  (clerk/table
-   (clerk/use-headers
-    (into [["attribute" "default" "description"]]
-          (for [{:keys [name default doc]} gspec/node-attributes]
-            [name (if default
-                    default
-                    "") doc])))))
-;; ### Edge Attributes
-(clerk/with-viewer table-viewer-no-pagination
-  (clerk/table
-   (clerk/use-headers
-    (into [["attribute" "default" "description"]]
-          (for [{:keys [name default doc]} gspec/edge-attributes]
-            [name (if default
-                    default
-                    "") doc])))))
+{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 
-;; ### Graph Attributes
-(clerk/with-viewer table-viewer-no-pagination
-  (clerk/table
-   (clerk/use-headers
-    (into [["attribute" "default" "description"]]
-          (for [{:keys [name default doc]} gspec/graph-attributes]
-            [name (if default
-                    default
-                    "") doc])))))
 
+(comment
+  ;; ### Node Attributes
+  (clerk/with-viewer table-viewer-no-pagination
+    (clerk/table
+     (clerk/use-headers
+      (into [["attribute" "default" "description"]]
+            (for [{:keys [name default doc]} gspec/node-attributes]
+              [name (if default
+                      default
+                      "") doc])))))
+  ;; ### Edge Attributes
+  (clerk/with-viewer table-viewer-no-pagination
+    (clerk/table
+     (clerk/use-headers
+      (into [["attribute" "default" "description"]]
+            (for [{:keys [name default doc]} gspec/edge-attributes]
+              [name (if default
+                      default
+                      "") doc])))))
+
+  ;; ### Graph Attributes
+  (clerk/with-viewer table-viewer-no-pagination
+    (clerk/table
+     (clerk/use-headers
+      (into [["attribute" "default" "description"]]
+            (for [{:keys [name default doc]} gspec/graph-attributes]
+              [name (if default
+                      default
+                      "") doc]))))))
+{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 
 
 ;; ## Render Options
