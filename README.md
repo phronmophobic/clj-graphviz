@@ -61,7 +61,7 @@ If you install libgraphviz via macports, you may need to add the macports librar
 
 [dorothy](https://github.com/daveray/dorothy): Hiccup-style generation of Graphviz graphs in Clojure and ClojureScript.
 
-Dorothy supports more of `graphviz`'s features out of the box. Dorothy works by first generating dot DSL code and then shelling out to the `dot` command line tool. `clj-graphviz` works directly with graphviz's underlying c library. The hope is to provide tighter integration with the graphviz library and expose underlying features that are hard to access via the `dot` command line tool (like graph layout).
+Dorothy works by first generating dot DSL code and then shelling out to the `dot` command line tool. `clj-graphviz` works directly with graphviz's underlying c library. The hope is to provide tighter integration with the graphviz library and expose underlying features that are hard to access via the `dot` command line tool (like graph layout).
 
 ## Future Work
 
