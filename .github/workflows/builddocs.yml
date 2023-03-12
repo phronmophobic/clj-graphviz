@@ -37,8 +37,10 @@ jobs:
         uses: DeLaGuardo/setup-clojure@9.5
         with:
           cli: 1.11.1.1208
-      - name: Build static
-        run: apt-get update -y && apt install libgraphviz-dev -y
+      - name: Update packages
+        run: apt-get update -y
+      - name: Install graphviz
+        run: apt install libgraphviz-dev -y
       - name: Build static
         run: clojure -X:generate-docs
       - name: Upload artifact
