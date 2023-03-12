@@ -68,14 +68,16 @@
 {::graph {:edges [["a" "b"]]}}
 
 ;; A graph is map of the keys: `:nodes`, `:edges`, `:default-attributes` and `:flags`.
-;; - `:nodes`: A sequence of node. Redundant if all nodes have edges.
-;; - `:edges`: A sequences of tuples (from, to) of nodes.
-;; - `:default-attributes`: A map of node types to their default attributes
-;; - `:flags`: flags should be a subset of `#{:directed :strict}`
+;; - `:nodes`: A sequence of nodes. Redundant if all nodes have edges.
+;; - `:edges`: A sequences of edges.
+;; - `:default-attributes`: A map of node types to their default attributes.
+;; - `:flags`: flags should be a subset of `#{:directed :strict}`.
+
+;; Each of these keys is described below.
 
 ;; ### Graph Nodes
 
-;; A graph node is either a node-id represented as a string or map.
+;; A graph node is either a string node-id or map.
 ;; ```clojure
 ;; ;; string node id
 ;; "my-node-id"
@@ -104,7 +106,7 @@
 {::graph {:nodes [{:id "large"
                    :fontsize "50"}]}}
 
-;; String nodes and map nodes can be mixed
+;; String nodes and map nodes can be mixed.
 {::graph {:nodes [{:id "large"
                    :fontsize "50"}
                   "other"]}}
@@ -171,7 +173,7 @@
 
 ;; ## Graph Attributes
 
-;; Default attributes can be passed to set attributes for the full graph. The default-attributes map takes attributes that are of type `:graph`, `:edge`, or `:node`.
+;; Default attributes can be passed to set attributes for the full graph. The `:default-attributes` map takes attributes that are of type `:graph`, `:edge`, or `:node`.
 {::graph {:default-attributes {:node {:penwidth "5.0"}
                                :graph {:label "My cool graph."}
                                :edge {:label "edge"}}
@@ -217,7 +219,7 @@
 ;; `render-graph` also accepts a second argument with extra options.
 ;; - `:filename`: The name of the file to save the image to. (default graph.png)
 ;; - `:format`: One of `:png` `:jpeg` `:jpg` `:gif` `:svg` `:pdf` `:bmp` `:eps` `:ico` `:ps` `:ps2` `:tif` `:tiff` `:wbmp`. If not provided, will default to guessing based on the suffix of of `:filename`.
-;; - `:layout-algorithm`: One of `:dot`, `:neato`, `:fdp`, `:sfdp`, `:twopi`, `:circo`, or `:patchwork.
+;; - `:layout-algorithm`: One of `:dot`, `:neato`, `:fdp`, `:sfdp`, `:twopi`, `:circo`, or `:patchwork`.
 
 {::graph {:edges [["a" "b"]
                   ["a" "c"]
