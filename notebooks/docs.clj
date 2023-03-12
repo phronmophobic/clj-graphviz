@@ -13,12 +13,13 @@
    (clerk/update-val
     
     (fn [m]
-
       (let [path (str "tmp/graph-" (hash m) ".png")]
+        (.mkdirs (-> (io/file path)
+                     (.getParentFile)))
         (if-let [opts (get m ::opts {})]
-         (render-graph (::graph m)
-                       (assoc opts
-                              :filename path)))
+          (render-graph (::graph m)
+                        (assoc opts
+                               :filename path)))
         
         (clerk/col
          {::clerk/width :wide}
