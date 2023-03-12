@@ -11,6 +11,25 @@
   :macports
   {:jvm-opts ["-Djna.library.path=/opt/local/lib"]}
 
+  :clerk {:extra-paths ["notebooks"]
+          :extra-deps
+          {io.github.nextjournal/clerk {;; :mvn/version "0.12.707"
+                                        :git/url "https://github.com/nextjournal/clerk"
+                                        :git/sha "92cfcc59898c1aff24eef1b59ae07af8af0adac5"
+                                        ;;:local/root "../clerk"
+                                        }}}
+  :generate-docs
+  {:extra-deps {io.github.nextjournal/clerk {;; :mvn/version "0.12.707"
+                                             :git/url "https://github.com/nextjournal/clerk"
+                                             :git/sha "92cfcc59898c1aff24eef1b59ae07af8af0adac5"
+                                             ;;:local/root "../clerk"
+                                             }}
+   :extra-paths ["notebooks"]
+   :exec-fn nextjournal.clerk/build!
+   :exec-args {:paths ["notebooks/docs.clj"]
+               :out-path "docs/"
+               :bundle true}}
+
   :project
   {:jvm-opts ["-Djna.library.path=../llvm-project/build/out/lib:/opt/local/lib"
 
@@ -20,7 +39,8 @@
    ;; /opt/local/lib:
    :extra-deps {com.phronemophobic.membrane/skialib-macosx-aarch64 { :mvn/version "0.12-beta"
                                                                  ;;:local/root "../membrane2/csource/macos-aarch64"
-                                                                 }}}
+                                                                    }
+                org.clojure/test.check {:mvn/version "1.1.1"}}}
 
   :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.3" :git/sha "0d20256"}
                  slipset/deps-deploy {:mvn/version "RELEASE"}}
