@@ -1,8 +1,10 @@
 (ns com.phronemophobic.clj-graphviz
   (:require [com.phronemophobic.clj-graphviz.raw.cgraph :as cgraph]
             [com.phronemophobic.clj-graphviz.raw.gvc :as gvc]
+            [com.phronemophobic.clj-graphviz.spec :as gspec]
             [clojure.java.io :as io]
             [clojure.string :as str]
+            [clojure.spec.alpha :as s]
             clojure.set)
   (:gen-class))
 
@@ -85,7 +87,12 @@
          format (or format
                     (guess-format filename))
          layout-algorithm (or layout-algorithm
-                              :dot)]
+                              :dot)
+         graph (assoc graph
+                      :default-attributes
+                      (merge-with merge
+                                  gspec/default-attributes
+                                  default-attributes))]
      (when-not (supported-formats format)
        (throw (ex-info
                (str "Unsupported format. Must be one of "
@@ -96,6 +103,9 @@
                (str "Unsupported layout algorithm. Must be one of "
                     (str/join ", " supported-layout-algorithms))
                {:layout-algorithm layout-algorithm})))
+     (when (not (s/valid? ::graph graph))
+       (throw (ex-info "Invalid graph"
+                       (s/explain-data ::graph graph))))
      (let [g* (cgraph/make-cgraph graph)]
        (let [gvc (gvc/gvContext)]
          (gvc/gvLayout gvc g* (name layout-algorithm))
