@@ -25,3 +25,5 @@
 /checkouts
 /classes
 /target
+.clerk
+tmp/
