@@ -52,13 +52,13 @@
 ;; Leiningen dependency:
 
 ;; ```clojure
-;; [com.phronemophobic/clj-graphviz "0.3.0"]
+;; [com.phronemophobic/clj-graphviz "0.4.0"]
 ;; ```
 
 ;; deps.edn dependency:
 
 ;; ```clojure
-;; com.phronemophobic/clj-graphviz {:mvn/version "0.3.0"}
+;; com.phronemophobic/clj-graphviz {:mvn/version "0.4.0"}
 ;; ```
 
 ;; ## Usage
