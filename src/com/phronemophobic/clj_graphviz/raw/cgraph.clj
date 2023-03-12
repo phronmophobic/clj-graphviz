@@ -147,7 +147,7 @@
          (when-not (get-in default-attributes [:node k])
            (throw (ex-info "Node attributes must have defaults."
                            {:node node})))
-         (agset node* k v)
+         (agset node* (name k) v)
          node*)
        node*
        (dissoc node :id)))
@@ -185,7 +185,7 @@
                 (reduce
                  (fn [g* [k v]]
                    (agattr g* (kw->node-type node-type)
-                           k v)
+                           (name k) v)
                    g*)
                  g*
                  attrs)))
@@ -228,8 +228,8 @@
          (doseq [[k v] (dissoc edge :from :to)]
            (when-not (get-in default-attributes [:edge k])
              (throw (ex-info "Edge attributes must have defaults."
-                             {:edge edge}))
-             (agset edge* k v)))
+                             {:edge edge})))
+           (agset edge* (name k) v))
          nodes*))
      nodes*
      edges)
