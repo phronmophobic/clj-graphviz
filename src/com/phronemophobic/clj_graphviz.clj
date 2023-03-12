@@ -33,7 +33,7 @@
     :patchwork})
 
 (defn guess-format
-  "Trieds to guess an image format based off of a filename"
+  "Tries to guess an image format based off of a filename"
   [fname]
   (some (fn [format]
           (when (str/ends-with? fname (name format))
