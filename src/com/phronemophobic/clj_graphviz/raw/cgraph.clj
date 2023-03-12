@@ -235,7 +235,7 @@
      edges)
 
     ;; be tidy
-    (let [ptr (Pointer/nativeValue (.getPointer g*))]
+    (let [ptr (Pointer/nativeValue g*)]
       (.register cleaner g*
                  (fn []
                    (agclose (Pointer. ptr)))))
