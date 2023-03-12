@@ -45,9 +45,10 @@
   "Layout a graph and save an image to `filename`.
   
   A graph is map of the keys: `:nodes`, `:edges`, and `:flags`.
-  `:nodes`: A sequence of node ids (strings). Redundant if all nodes have edges.
-  `:edges`: A sequences of tuples (from, to) of node ids.
+  `:nodes`: A sequence of nodes. Redundant if all nodes have edges.
+  `:edges`: A sequences of tuples (from, to) of nodes.
   `:flags`: flags should be a subset of #{:directed :strict}
+  `:default-attributes`: A map node-types to their default attributes
 
   Options is map of the keys: `:filename`, `:format`, `:layout-algorithm`.
   `:filename`: The name of the file to save the image to. (default graph.png)
