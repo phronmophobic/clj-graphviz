@@ -8,6 +8,10 @@ For direct access to gvc and cgraph, check out the `com.phronemophobic.clj-graph
 
 Built with [clong](https://github.com/phronmophobic/clong).
 
+## Documentation
+
+[Documentation](https://phronmophobic.github.io/clj-graphviz/)
+
 ## Dependency
 
 Leiningen dependency:
