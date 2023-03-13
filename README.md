@@ -41,7 +41,7 @@ Linux
 Mac
 `sudo port install graphviz-devel`
 
-If you install libgraphviz via macports, you may need to add the macports library path to the jvm via an alias:
+If you install libgraphviz via macports, you may need to add the macports jvm library path via an alias:
 ```
   :macports {:jvm-opts ["-Djna.library.path=/opt/local/lib"]}
 ```
