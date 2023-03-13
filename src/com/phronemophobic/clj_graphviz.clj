@@ -1,11 +1,11 @@
 (ns com.phronemophobic.clj-graphviz
-  (:require [com.phronemophobic.clj-graphviz.raw.cgraph :as cgraph]
-            [com.phronemophobic.clj-graphviz.raw.gvc :as gvc]
+  (:require [com.phronemophobic.clj-graphviz.raw :as gv]
             [com.phronemophobic.clj-graphviz.spec :as gspec]
             [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.spec.alpha :as s]
             clojure.set)
+  (:import com.sun.jna.Structure)
   (:gen-class))
 
 (def supported-formats
@@ -106,12 +106,37 @@
      (when (not (s/valid? ::graph graph))
        (throw (ex-info "Invalid graph"
                        (s/explain-data ::graph graph))))
-     (let [g* (cgraph/make-cgraph graph)]
-       (let [gvc (gvc/gvContext)]
-         (gvc/gvLayout gvc g* (name layout-algorithm))
-         (gvc/gvRenderFilename gvc g* (name format) filename)
+     (let [g* (gv/make-cgraph graph)
+           gvc (gv/gvContext)]
+       (gv/gvLayout gvc g* (name layout-algorithm))
+       (gv/gvRenderFilename gvc g* (name format) filename)
 
-         (gvc/gvFreeLayout gvc g*)
-         (gvc/gvFreeContext gvc)
-         nil)))))
+       (gv/gvFreeLayout gvc g*)
+       (gv/gvFreeContext gvc)
+       nil))))
+
+
+(defn layout
+  "Layout `graph` and return basic layout info."
+  ([graph]
+   (layout graph :dot))
+  ([graph layout-algorithm]
+   (when-not (supported-layout-algorithms layout-algorithm)
+     (throw (ex-info
+             (str "Unsupported layout algorithm. Must be one of "
+                  (str/join ", " supported-layout-algorithms))
+             {:layout-algorithm layout-algorithm})))
+   (when (not (s/valid? ::graph graph))
+     (throw (ex-info "Invalid graph"
+                     (s/explain-data ::graph graph))))
+   (let [g* (gv/make-cgraph graph)]
+     (let [gvc (gv/gvContext)]
+       (gv/gvLayout gvc g* (name layout-algorithm))
+
+       (let [graph-layout
+             {:nodes (gv/->nodes g*)
+              :edges (gv/->edges g*)}]
+         (gv/gvFreeLayout gvc g*)
+         (gv/gvFreeContext gvc)
+         graph-layout)))))
 
