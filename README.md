@@ -4,7 +4,7 @@ A wrapper of graphviz's underlying c libraries gvc and cgraph.
 
 A high level wrapper for rendering graphs can be found at `com.phronemophobic.clj-graphviz/render-graph`.
 
-For direct access to gvc and cgraph, check out the `com.phronemophobic.clj-graphviz.raw.gvc` and `com.phronemophobic.clj-graphviz.raw.cgraph` namespaces.
+For direct access to gvc and cgraph, check out the `com.phronemophobic.clj-graphviz.raw`.
 
 Built with [clong](https://github.com/phronmophobic/clong).
 
@@ -17,13 +17,13 @@ Built with [clong](https://github.com/phronmophobic/clong).
 Leiningen dependency:
 
 ```clojure
-[com.phronemophobic/clj-graphviz "0.3.0"]
+[com.phronemophobic/clj-graphviz "0.5.0"]
 ```
 
 deps.edn dependency:
 
 ```clojure
-com.phronemophobic/clj-graphviz {:mvn/version "0.3.0"}
+com.phronemophobic/clj-graphviz {:mvn/version "0.5.0"}
 ```
 
 ## libgraphviz
@@ -65,7 +65,7 @@ Dorothy works by first generating dot DSL code and then shelling out to the `dot
 
 ## Future Work
 
-Graphviz offers many options to tweak how graphs are rendered. It also offers graph layout without rendering. Exposing more of graphviz's functionality with a friendly clojure interface is a natural next step. Until then, the full graphviz API is available in its form under `com.phronemophobic.clj-graphviz.raw.gvc` and `com.phronemophobic.clj-graphviz.raw.cgraph`.
+Graphviz offers many options to tweak how graphs are rendered. It also offers graph layout without rendering. Exposing more of graphviz's functionality with a friendly clojure interface is a natural next step. Until then, the full graphviz API is available in its form under `com.phronemophobic.clj-graphviz.raw`.
 
 For more information on what graphviz could do, check out https://graphviz.org/pdf/libguide.pdf.
 

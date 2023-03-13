@@ -52,19 +52,23 @@
 ;; Leiningen dependency:
 
 ;; ```clojure
-;; [com.phronemophobic/clj-graphviz "0.4.0"]
+;; [com.phronemophobic/clj-graphviz "0.5.0"]
 ;; ```
 
 ;; deps.edn dependency:
 
 ;; ```clojure
-;; com.phronemophobic/clj-graphviz {:mvn/version "0.4.0"}
+;; com.phronemophobic/clj-graphviz {:mvn/version "0.5.0"}
 ;; ```
 
 ;; ## Usage
 
 ;; The main entrypoint for `clj-graphviz`'s high level clojure api
 ;; is `render-graph`.
+
+;; ```clojure
+;; (require '[com.phronemophobic.clj-graphviz :refer [render-graph]])
+;; ```
 
 ;; `render-graph` can be called like
 ;;```clojure
