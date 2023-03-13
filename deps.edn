@@ -2,7 +2,7 @@
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         net.java.dev.jna/jna {:mvn/version "5.13.0"}
         com.rpl/specter {:mvn/version "1.1.4"}
-        com.phronemophobic/clong {:mvn/version "0.9.2"
+        com.phronemophobic/clong {:mvn/version "0.9.3"
                                   ;; :local/root "../clong"
                                   }}
  :aliases
