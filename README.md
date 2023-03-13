@@ -8,6 +8,9 @@ For direct access to gvc and cgraph, check out the `com.phronemophobic.clj-graph
 
 Built with [clong](https://github.com/phronmophobic/clong).
 
+![clojure-cosmos](https://user-images.githubusercontent.com/156241/224561677-261b79db-bc20-4252-a872-332d6a54e67f.jpg)
+
+
 ## Documentation
 
 [Documentation](https://phronmophobic.github.io/clj-graphviz/)
