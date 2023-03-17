@@ -13,15 +13,11 @@
 
   :clerk {:extra-paths ["notebooks"]
           :extra-deps
-          {io.github.nextjournal/clerk {;; :mvn/version "0.12.707"
-                                        :git/url "https://github.com/nextjournal/clerk"
-                                        :git/sha "92cfcc59898c1aff24eef1b59ae07af8af0adac5"
+          {io.github.nextjournal/clerk {io.github.nextjournal/clerk {:mvn/version "0.13.842"}
                                         ;;:local/root "../clerk"
                                         }}}
   :generate-docs
-  {:extra-deps {io.github.nextjournal/clerk {;; :mvn/version "0.12.707"
-                                             :git/url "https://github.com/nextjournal/clerk"
-                                             :git/sha "92cfcc59898c1aff24eef1b59ae07af8af0adac5"
+  {:extra-deps {io.github.nextjournal/clerk {io.github.nextjournal/clerk {:mvn/version "0.13.842"}
                                              ;;:local/root "../clerk"
                                              }}
    :extra-paths ["notebooks"]
