@@ -13,13 +13,13 @@
 
   :clerk {:extra-paths ["notebooks"]
           :extra-deps
-          {io.github.nextjournal/clerk {io.github.nextjournal/clerk {:mvn/version "0.13.842"}
-                                        ;;:local/root "../clerk"
-                                        }}}
+          {io.github.nextjournal/clerk {:mvn/version "0.13.842"
+                                        ;;:local/root "../clerk"}
+                                        }}
   :generate-docs
-  {:extra-deps {io.github.nextjournal/clerk {io.github.nextjournal/clerk {:mvn/version "0.13.842"}
-                                             ;;:local/root "../clerk"
-                                             }}
+  {:extra-deps {io.github.nextjournal/clerk {:mvn/version "0.13.842"
+                                             ;;:local/root "../clerk"}
+                                             }
    :extra-paths ["notebooks"]
    :exec-fn nextjournal.clerk/build!
    :exec-args {:paths ["notebooks/docs.clj"]
