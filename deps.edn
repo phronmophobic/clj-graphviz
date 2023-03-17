@@ -14,12 +14,12 @@
   :clerk {:extra-paths ["notebooks"]
           :extra-deps
           {io.github.nextjournal/clerk {:mvn/version "0.13.842"
-                                        ;;:local/root "../clerk"}
-                                        }}
+                                        ;;:local/root "../clerk"
+                                        }}}
   :generate-docs
   {:extra-deps {io.github.nextjournal/clerk {:mvn/version "0.13.842"
-                                             ;;:local/root "../clerk"}
-                                             }
+                                             ;;:local/root "../clerk"
+                                             }}
    :extra-paths ["notebooks"]
    :exec-fn nextjournal.clerk/build!
    :exec-args {:paths ["notebooks/docs.clj"]
