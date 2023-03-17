@@ -48,6 +48,8 @@
 
 ;; # clj-graphviz
 
+;; [clj-graphviz](https://github.com/phronmophobic/clj-graphviz) is a clojure wrapper for the libgraphviz c libraries.
+
 ;; ## Dependency
 
 ;; Leiningen dependency:
