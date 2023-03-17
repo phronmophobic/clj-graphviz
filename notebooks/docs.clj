@@ -1,4 +1,5 @@
-^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
+^{:nextjournal.clerk/visibility {:code :hide :result :hide}
+  :nextjournal.clerk/toc true}
 (ns docs
   (:require [nextjournal.clerk :as clerk]
             [nextjournal.clerk.viewer :as v]
