@@ -1,0 +1,29 @@
+name: Run tests
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-11, ubuntu-20.04]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Setup Clojure
+        uses: DeLaGuardo/setup-clojure@9.5
+        with:
+          cli: 1.11.1.1208
+      - name: Update packages
+        run: sudo apt-get update -y
+      # - name: Install graphviz
+      #   run: sudo apt install libgraphviz-dev -y
+      - name: Run tests
+        run: clojure -X:generate-docs:cljonda-all

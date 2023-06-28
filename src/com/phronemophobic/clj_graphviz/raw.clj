@@ -25,6 +25,11 @@
             *out* w]
     (pr obj)))
 
+(try
+  (require 'com.phronemophobic.cljonda.graphviz)
+  (catch java.io.FileNotFoundException e
+    nil))
+
 (def ^:no-doc libgvc
   (com.sun.jna.NativeLibrary/getInstance "gvc"))
 
