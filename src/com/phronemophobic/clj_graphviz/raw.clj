@@ -91,7 +91,6 @@
                  ))))
 
 
-
 (def raw-api
   #_((requiring-resolve 'com.phronemophobic.clong.clang/easy-api) "/opt/local/include/graphviz/gvc.h")
   
@@ -105,8 +104,9 @@
   (-> raw-api
       simplify-rets
       simplify-fields
-      ignore-bitfielded-structs
-      fix-agdesc))
+      ;; ignore-bitfielded-structs
+      ;; fix-agdesc
+      ))
 
 (gen/def-api libgvc api)
 
@@ -178,13 +178,17 @@
 (defn set->Agdesc [flags]
   (let [masks {:directed 2r1
                :strict 2r10
-               :maingraph 2r1000}]
-    (int
-     (reduce
-      (fn [i flag]
-        (bit-or i (get masks flag)))
-      (:maingraph masks)
-      flags))))
+               :maingraph 2r1000}
+        i (int
+           (reduce
+            (fn [i flag]
+              (bit-or i (get masks flag)))
+            (:maingraph masks)
+            flags))
+        desc (com.phronemophobic.clj_graphviz.raw.structs.Agdesc_s.)]
+    (.setInt (.getPointer desc) 0 i)
+    (.read desc)
+    desc))
 
 ;; should match definitions
 ;; (.getInt (.getGlobalVariableAddress libcgraph "Agdirected")
