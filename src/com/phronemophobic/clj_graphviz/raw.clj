@@ -27,7 +27,13 @@
 
 (try
   (require 'com.phronemophobic.cljonda.graphviz)
+
+  (require '[com.phronemophobic.cljonda.core :as cc])
+  (println "system:" (cc/system-arch))
+  (println "path:\n" (System/getProperty "jna.library.path"))
+
   (catch java.io.FileNotFoundException e
+    (println "cljonda graphviz NOT LOADED!")
     nil))
 
 (def ^:no-doc libgvc
