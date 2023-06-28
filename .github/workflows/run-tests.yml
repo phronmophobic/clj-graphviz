@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-11, ubuntu-20.04]
+      fail-fast: false
 
     runs-on: ${{ matrix.os }}
 
@@ -21,8 +22,8 @@ jobs:
         uses: DeLaGuardo/setup-clojure@9.5
         with:
           cli: 1.11.1.1208
-      - name: Update packages
-        run: sudo apt-get update -y
+      # - name: Update packages
+      #   run: sudo apt-get update -y
       # - name: Install graphviz
       #   run: sudo apt install libgraphviz-dev -y
       - name: Run tests
