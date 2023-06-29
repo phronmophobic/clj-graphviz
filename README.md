@@ -58,7 +58,7 @@ If you install libgraphviz via macports, you may need to add the macports jvm li
 ```
 
 
-## Usage
+## Basic Usage
 
 ```clojure
 (require '[com.phronemophobic.clj-graphviz :refer [render-graph]])
@@ -70,6 +70,8 @@ If you install libgraphviz via macports, you may need to add the macports jvm li
               {:filename "my-graph.png"})
 
 ```
+
+See [Documentation](https://phronmophobic.github.io/clj-graphviz/) for more info.
 
 ## Related
 
