@@ -31,7 +31,18 @@ com.phronemophobic/clj-graphviz {:mvn/version "0.5.0"}
 
 ## libgraphviz
 
-clj-graphviz needs libgraphviz to installed on the system. The easiest way to do that is typically through a package manager.
+clj-graphviz needs libgraphviz to installed on the system. The native dependencies can either be installed using a package manager or by including the maven dependency for your platform and architecture. 
+
+### Clojars
+Including multiple platforms and architectures is fine, but it will increase the size of your dependencies
+
+```clojure
+com.phronemophobic.cljonda/graphviz-darwin-aarch64 {:mvn/version "2.50.0-0.9.5"}
+com.phronemophobic.cljonda/graphviz-darwin-x86-64 {:mvn/version "2.50.0-0.9.5"}
+com.phronemophobic.cljonda/graphviz-linux-x86-64 {:mvn/version "2.50.0-0.9.5"}
+```
+
+### OS package manager
 
 Examples:
 
