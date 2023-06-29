@@ -71,7 +71,7 @@ If you install libgraphviz via macports, you may need to add the macports jvm li
 
 ```
 
-See [Documentation](https://phronmophobic.github.io/clj-graphviz/) for more info.
+See [documentation](https://phronmophobic.github.io/clj-graphviz/) for more info.
 
 ## Related
 
