@@ -45,6 +45,8 @@ jobs:
         run: sudo apt install libgraphviz-dev -y
       - name: Build static
         run: clojure -X:generate-docs
+      - name: Build codox
+        run: clojure -X:codox
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
