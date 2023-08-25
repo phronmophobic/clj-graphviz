@@ -13,8 +13,8 @@ Built with [clong](https://github.com/phronmophobic/clong).
 
 ## Documentation
 
-[Documentation](https://phronmophobic.github.io/clj-graphviz/)
-[API reference](https://phronmophobic.github.io/clj-graphviz/reference/)
+[Documentation](https://phronmophobic.github.io/clj-graphviz/)  
+[API Reference](https://phronmophobic.github.io/clj-graphviz/reference/)
 
 ## Dependency
 
