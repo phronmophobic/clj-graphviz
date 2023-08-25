@@ -208,6 +208,24 @@
 
 ;; ## Subgraphs and clusters
 
+;; `clj-graphviz` also supports subgraphs and clusters. Subgraphs are just normal graph which have a parent graph.
+;; Subgraphs play three roles in graphviz:
+;; - A subgraph can be used to indicate that certain nodes and edges should be grouped together.
+;; - A subgraph can be used to specify attributes for a subset of nodes and edges.
+;; - A cluster is used by some of the layout algorithms and drawing attributes.
+
+;; Some other facts about subgraphs:
+;; - subgraphs can reference nodes from their parent or sibling graphs
+;; - subgraphs can be nested arbitrarily
+
+;; ### Clusters
+
+;; Clusters are special types of subgraphs. Subgraphs can be specied as clusters in two ways:
+;; - implicitly, by giving the subgraph an id that starts with "cluster"
+;; - explicitly, by setting the default graph attribute, "cluster", to true.
+
+;; ### Subgraph and cluster example
+
 {::graph {:edges [["a" "b"]
                   ["a" "c"]
                   ["c" "b"]
@@ -215,20 +233,27 @@
           :default-attributes {:node {:penwidth "2.0"
                                       :color "blue"
                                       :fontsize "18"}}
-          :id "foo"
-          :subgraphs [{:edges [["a" "s42"]
-                               ["s1" "s2"]
-                               ["s1" "s42"]]
+          :subgraphs [{:edges [["a" "foo42"]
+                               ["foo1" "foo2"]
+                               ["foo1" "foo42"]]
                        :default-attributes {:node {:color "green"
                                                    :penwidth "5.0"
                                                    :fontsize "33"}
                                             :graph {:color "red"}}
-                       :id "cluster1"
-                       }]}
- ::opts {:filename "cool-graph"
-         :format :jpg
-         :layout-algorithm :neato}}
-
+                       :subgraphs
+                       [{:edges [["foo1" "foofoo2"]
+                                 ["foofoo1" "foofoo2"]
+                                 ["foofoo1" "foofoo42"]]
+                         :default-attributes {:node {:color "orange"
+                                                     :fontsize "8"}
+                                              :graph {:color "purple"
+                                                      :cluster "true"}}}]
+                       :id "cluster1"}
+                      {:edges [["a" "bar42"]
+                               ["bar1" "bar2"]
+                               ["bar1" "bar42"]]
+                       :default-attributes {:node {:color "green"
+                                                   :fontsize "8"}}}]}}
 
 {:nextjournal.clerk/visibility {:code :hide :result :hide}}
 
