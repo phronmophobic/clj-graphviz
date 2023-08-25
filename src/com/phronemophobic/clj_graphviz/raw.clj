@@ -325,7 +325,13 @@
                (agset edge* (name k) v))
              nodes*))
          nodes*
-         edges)]
+         edges)
+
+        ;; add subgraphs
+        nodes* (reduce (fn [nodes* subgraph]
+                         (make-subgraph g* subgraph nodes*))
+                       nodes
+                       subgraphs)]
 
 
     nodes*))
@@ -361,10 +367,7 @@
                           :maingraph))
         g* (agopen (or id "") graph-desc nil)
         nodes* (apply-graph-properties! g* graph {})
-        nodes* (reduce (fn [nodes* subgraph]
-                         (make-subgraph g* subgraph nodes*))
-                       nodes
-                       subgraphs)]
+        ]
 
     (let [ptr (Pointer/nativeValue g*)]
       (.register cleaner g*
