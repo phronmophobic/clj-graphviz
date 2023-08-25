@@ -49,6 +49,7 @@
   A graph is map of the keys: `:nodes`, `:edges`, and `:flags`.
   `:nodes`: A sequence of nodes. Redundant if all nodes have edges.
   `:edges`: A sequences of tuples (from, to) of nodes.
+  `:subgraphs`: A sequence of subgraphs which have the same specifications as graphs (except without `:flags`).
   `:flags`: flags should be a subset of #{:directed :strict}
   `:default-attributes`: A map node-types to their default attributes
 
