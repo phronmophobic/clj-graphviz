@@ -248,9 +248,11 @@
 ;; - `:format`: One of `:png` `:jpeg` `:jpg` `:gif` `:svg` `:pdf` `:bmp` `:eps` `:ico` `:ps` `:ps2` `:tif` `:tiff` `:wbmp`. If not provided, will default to guessing based on the suffix of of `:filename`.
 ;; - `:layout-algorithm`: One of `:dot`, `:neato`, `:fdp`, `:sfdp`, `:twopi`, `:circo`, or `:patchwork`.
 
+{:nextjournal.clerk/visibility {:code :hide :result :show}}
 {::graph {:edges [["a" "b"]
                   ["a" "c"]
-                  ["c" "b"]]}
+                  ["c" "b"]
+                  ["c" "e"]]}
  ::opts {:filename "cool-graph"
          :format :jpg
          :layout-algorithm :neato}}
