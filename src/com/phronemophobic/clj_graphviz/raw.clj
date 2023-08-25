@@ -256,19 +256,17 @@
     ;; assume map
     e))
 
-
-(defn make-cgraph [{:keys [nodes
-                           edges
-                           default-attributes
-                           flags]
-                    :as graph}]
-  (let [graph-desc (set->Agdesc
-                    (conj (clojure.set/intersection
-                           flags
-                           #{:directed :strict})
-                          :maingraph))
-        g* (agopen "" graph-desc nil)
-        ;; add default attributes
+(defn ^:private apply-graph-properties!
+  "Applies graph properties. Returns accumulated nodes*."
+  [g*
+   {:keys [nodes
+           edges
+           subgraphs
+           default-attributes]}
+   ;; existing nodes
+   ;; used for subgraphs
+   nodes*]
+  (let [;; add default attributes
         g* (reduce
             (fn [g* [node-type attrs]]
               (let [nt (kw->node-type node-type)]
@@ -298,36 +296,76 @@
                  node* (or (get nodes* node-id)
                            (make-node g* default-attributes node))]
              (assoc nodes* node-id node*)))
-         {}
-         nodes)]
-    ;; add edges
-    (reduce
-     (fn [nodes* edge]
-       (let [edge (normalize-edge edge)
-             {:keys [from to]} edge
+         (or nodes* {})
+         nodes)
 
-             from-node (normalize-node from)
-             from-id (:id from-node)
-             from* (or (get nodes* from-id)
-                       (make-node g* default-attributes from-node))
-             nodes* (assoc nodes* from-id from*)
+        ;; add edges
+        nodes*
+        (reduce
+         (fn [nodes* edge]
+           (let [edge (normalize-edge edge)
+                 {:keys [from to]} edge
 
-             to-node (normalize-node to)
-             to-id (:id to-node)
-             to* (or (get nodes* to-id)
-                     (make-node g* default-attributes to-node))
-             nodes* (assoc nodes* to-id to*)
-             edge* (agedge g* from* to* (str (gensym)) 1)]
-         (doseq [[k v] (dissoc edge :from :to)]
-           (when-not (get-in default-attributes [:edge k])
-             (throw (ex-info "Edge attributes must have defaults."
-                             {:edge edge})))
-           (agset edge* (name k) v))
-         nodes*))
-     nodes*
-     edges)
+                 from-node (normalize-node from)
+                 from-id (:id from-node)
+                 from* (or (get nodes* from-id)
+                           (make-node g* default-attributes from-node))
+                 nodes* (assoc nodes* from-id from*)
 
-    ;; be tidy
+                 to-node (normalize-node to)
+                 to-id (:id to-node)
+                 to* (or (get nodes* to-id)
+                         (make-node g* default-attributes to-node))
+                 nodes* (assoc nodes* to-id to*)
+                 edge* (agedge g* from* to* (str (gensym)) 1)]
+             (doseq [[k v] (dissoc edge :from :to)]
+               (when-not (get-in default-attributes [:edge k])
+                 (throw (ex-info "Edge attributes must have defaults."
+                                 {:edge edge})))
+               (agset edge* (name k) v))
+             nodes*))
+         nodes*
+         edges)]
+
+
+    nodes*))
+
+(defn ^:private make-subgraph
+  "Creates a subgraph of g*."
+  [g*
+   {:keys [id
+           nodes
+           edges
+           default-attributes]
+    :as subgraph}
+   nodes*]
+  (let [sg* (agsubg g* (or id (name (gensym "subg_"))) 1)
+        nodes* (apply-graph-properties! sg* subgraph nodes*)]
+    ;; note subgraphs are automatically freed
+    ;; when calling agclose on the subraph's parent.
+    ;; (I think).
+
+    nodes*))
+
+(defn make-cgraph [{:keys [id
+                           nodes
+                           edges
+                           subgraphs
+                           default-attributes
+                           flags]
+                    :as graph}]
+  (let [graph-desc (set->Agdesc
+                    (conj (clojure.set/intersection
+                           flags
+                           #{:directed :strict})
+                          :maingraph))
+        g* (agopen (or id "") graph-desc nil)
+        nodes* (apply-graph-properties! g* graph {})
+        nodes* (reduce (fn [nodes* subgraph]
+                         (make-subgraph g* subgraph nodes*))
+                       nodes
+                       subgraphs)]
+
     (let [ptr (Pointer/nativeValue g*)]
       (.register cleaner g*
                  (fn []
