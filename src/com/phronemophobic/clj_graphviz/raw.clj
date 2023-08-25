@@ -256,6 +256,7 @@
     ;; assume map
     e))
 
+(declare make-subgraph)
 (defn ^:private apply-graph-properties!
   "Applies graph properties. Returns accumulated nodes*."
   [g*
