@@ -206,9 +206,9 @@
 
 ;; You can find more details about available attributes at [graphviz attributes](https://graphviz.org/doc/info/attrs.html). If an attribute for a node or edge does not have a default, then one must be provided via `:default-attributes`.
 
-;; ## Subgraphs and clusters
+;; ## Subgraphs and Clusters
 
-;; `clj-graphviz` also supports subgraphs and clusters. Subgraphs are just normal graph which have a parent graph.
+;; `clj-graphviz` also supports subgraphs and clusters. Subgraphs are just normal graphs which have a parent graph.
 ;; Subgraphs play three roles in graphviz:
 ;; - A subgraph can be used to indicate that certain nodes and edges should be grouped together.
 ;; - A subgraph can be used to specify attributes for a subset of nodes and edges.
@@ -222,9 +222,9 @@
 
 ;; Clusters are special types of subgraphs. Subgraphs can be specied as clusters in two ways:
 ;; - implicitly, by giving the subgraph an id that starts with "cluster"
-;; - explicitly, by setting the default graph attribute, "cluster", to true.
+;; - explicitly, by setting the default graph attribute, "cluster", to "true".
 
-;; ### Subgraph and cluster example
+;; ### Subgraph and Cluster Example
 
 {::graph {:edges [["a" "b"]
                   ["a" "c"]
