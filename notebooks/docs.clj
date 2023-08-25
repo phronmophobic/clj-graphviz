@@ -206,6 +206,30 @@
 
 ;; You can find more details about available attributes at [graphviz attributes](https://graphviz.org/doc/info/attrs.html). If an attribute for a node or edge does not have a default, then one must be provided via `:default-attributes`.
 
+;; ## Subgraphs and clusters
+
+{::graph {:edges [["a" "b"]
+                  ["a" "c"]
+                  ["c" "b"]
+                  ["c" "e"]]
+          :default-attributes {:node {:penwidth "2.0"
+                                      :color "blue"
+                                      :fontsize "18"}}
+          :id "foo"
+          :subgraphs [{:edges [["a" "s42"]
+                               ["s1" "s2"]
+                               ["s1" "s42"]]
+                       :default-attributes {:node {:color "green"
+                                                   :penwidth "5.0"
+                                                   :fontsize "33"}
+                                            :graph {:color "red"}}
+                       :id "cluster1"
+                       }]}
+ ::opts {:filename "cool-graph"
+         :format :jpg
+         :layout-algorithm :neato}}
+
+
 {:nextjournal.clerk/visibility {:code :hide :result :hide}}
 
 
@@ -238,6 +262,7 @@
               [name (if default
                       default
                       "") doc]))))))
+
 {:nextjournal.clerk/visibility {:code :hide :result :hide}}
 
 
@@ -256,6 +281,7 @@
  ::opts {:filename "cool-graph"
          :format :jpg
          :layout-algorithm :neato}}
+
 
 
 
