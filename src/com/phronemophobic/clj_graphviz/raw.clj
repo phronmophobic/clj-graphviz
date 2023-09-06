@@ -331,7 +331,7 @@
         ;; add subgraphs
         nodes* (reduce (fn [nodes* subgraph]
                          (make-subgraph g* subgraph nodes*))
-                       nodes
+                       nodes*
                        subgraphs)]
 
 
