@@ -232,22 +232,40 @@
     ;; assume map
     n))
 
-(defn ^:private make-node [g* default-attributes node]
-  (if-let [node-id (:id node)]
-    (let [node* (agnode g* node-id 1)]
-      (reduce
-       (fn [node* [k v]]
-         (when-not (get-in default-attributes [:node k])
-           (throw (ex-info "Node attributes must have defaults."
-                           {:node node})))
-         (agset node* (name k) v)
-         node*)
-       node*
-       (dissoc node :id)))
-    ;; else
-    (throw
-     (ex-info "Missing node :id"
-              {:node node}))))
+(defn ^:private apply-node-properties!
+  "Applies properties of node to node*.
+
+  Returns node*."
+  [node* default-attributes node]
+  (reduce
+   (fn [node* [k v]]
+     (when-not (get-in default-attributes [:node k])
+       (throw (ex-info "Node attributes must have defaults."
+                       {:node node})))
+     (agset node* (name k) v)
+     node*)
+   node*
+   (dissoc node :id)))
+
+(defn ^:private make-node
+  "Adds node to g*.
+
+  node will be created if an existing node with same id
+  doesn't alreay exist.
+
+  If node with the same id already exists, any properties
+  specified will be applied to the existing node and returned."
+  [g* default-attributes node]
+  (if (string? node)
+    (agnode g* node 1)
+    ;; assume map
+    (if-let [node-id (:id node)]
+      (let [node* (agnode g* node-id 1)]
+        (apply-node-properties! node* default-attributes node))
+      ;; else
+      (throw
+       (ex-info "Missing node :id"
+                {:node node})))))
 
 (defn ^:private normalize-edge [e]
   (if (vector? e)
@@ -258,15 +276,12 @@
 
 (declare make-subgraph)
 (defn ^:private apply-graph-properties!
-  "Applies graph properties. Returns accumulated nodes*."
+  "Applies graph properties. Returns g*."
   [g*
    {:keys [nodes
            edges
            subgraphs
-           default-attributes]}
-   ;; existing nodes
-   ;; used for subgraphs
-   nodes*]
+           default-attributes]}]
   (let [;; add default attributes
         g* (reduce
             (fn [g* [node-type attrs]]
@@ -285,57 +300,31 @@
             default-attributes)
 
         ;; add nodes
-        nodes*
-        (reduce
-         (fn [nodes* node]
-           (when-not (or (string? node)
-                         (map? node))
-             (throw (ex-info "Nodes must be strings or maps."
-                             {:node node})))
-           (let [node (normalize-node node)
-                 node-id (:id node)
-                 node* (or (get nodes* node-id)
-                           (make-node g* default-attributes node))]
-             (assoc nodes* node-id node*)))
-         (or nodes* {})
-         nodes)
+        _ (doseq [node nodes]
+            (when-not (or (string? node)
+                          (map? node))
+              (throw (ex-info "Nodes must be strings or maps."
+                              {:node node})))
+            (make-node g* default-attributes node))
 
         ;; add edges
-        nodes*
-        (reduce
-         (fn [nodes* edge]
-           (let [edge (normalize-edge edge)
-                 {:keys [from to]} edge
+        _ (doseq [edge edges]
+            (let [edge (normalize-edge edge)
+                  {:keys [from to]} edge
+                  from* (make-node g* default-attributes from)
+                  to* (make-node g* default-attributes to)
 
-                 from-node (normalize-node from)
-                 from-id (:id from-node)
-                 from* (or (get nodes* from-id)
-                           (make-node g* default-attributes from-node))
-                 nodes* (assoc nodes* from-id from*)
-
-                 to-node (normalize-node to)
-                 to-id (:id to-node)
-                 to* (or (get nodes* to-id)
-                         (make-node g* default-attributes to-node))
-                 nodes* (assoc nodes* to-id to*)
-                 edge* (agedge g* from* to* (str (gensym)) 1)]
-             (doseq [[k v] (dissoc edge :from :to)]
-               (when-not (get-in default-attributes [:edge k])
-                 (throw (ex-info "Edge attributes must have defaults."
-                                 {:edge edge})))
-               (agset edge* (name k) v))
-             nodes*))
-         nodes*
-         edges)
+                  edge* (agedge g* from* to* (str (gensym)) 1)]
+              (doseq [[k v] (dissoc edge :from :to)]
+                (when-not (get-in default-attributes [:edge k])
+                  (throw (ex-info "Edge attributes must have defaults."
+                                  {:edge edge})))
+                (agset edge* (name k) v))))
 
         ;; add subgraphs
-        nodes* (reduce (fn [nodes* subgraph]
-                         (make-subgraph g* subgraph nodes*))
-                       nodes*
-                       subgraphs)]
-
-
-    nodes*))
+        _ (doseq [subgraph subgraphs]
+            (make-subgraph g* subgraph))]
+    g*))
 
 (defn ^:private make-subgraph
   "Creates a subgraph of g*."
@@ -344,15 +333,14 @@
            nodes
            edges
            default-attributes]
-    :as subgraph}
-   nodes*]
-  (let [sg* (agsubg g* (or id (name (gensym "subg_"))) 1)
-        nodes* (apply-graph-properties! sg* subgraph nodes*)]
+    :as subgraph}]
+  (let [sg* (agsubg g* (or id (name (gensym "subg_"))) 1)]
+     (apply-graph-properties! sg* subgraph )
     ;; note subgraphs are automatically freed
-    ;; when calling agclose on the subraph's parent.
+    ;; when calling agclose on the subgraph's parent.
     ;; (I think).
 
-    nodes*))
+     g*))
 
 (defn make-cgraph [{:keys [id
                            nodes
@@ -366,9 +354,9 @@
                            flags
                            #{:directed :strict})
                           :maingraph))
-        g* (agopen (or id "") graph-desc nil)
-        nodes* (apply-graph-properties! g* graph {})
-        ]
+        g* (agopen (or id "") graph-desc nil)]
+
+    (apply-graph-properties! g* graph)
 
     (let [ptr (Pointer/nativeValue g*)]
       (.register cleaner g*
