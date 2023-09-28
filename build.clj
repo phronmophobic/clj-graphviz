@@ -3,7 +3,7 @@
             [clojure.string :as str]))
 
 (def lib 'com.phronemophobic/clj-graphviz)
-(def version "0.6.3")
+(def version "0.6.4")
 
 (def class-dir "target/classes")
 (def basis (b/create-basis {:project "deps.edn"}))
