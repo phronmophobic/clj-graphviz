@@ -10,7 +10,7 @@
            com.sun.jna.Structure)
   (:gen-class))
 
-(def cleaner (Cleaner/create))
+(def ^Cleaner cleaner (Cleaner/create))
 
 (defn ^:private write-edn [w obj]
   (binding [*print-length* nil
