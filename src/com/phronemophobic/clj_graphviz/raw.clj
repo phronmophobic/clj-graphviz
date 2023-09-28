@@ -401,6 +401,12 @@
          (distinct-by agnameof))
    (node-eduction g*)))
 
+(defn subgraph-eduction [g*]
+  (eduction
+   (take-while some?)
+   (iterate #(agnxtsubg %)
+            (agfstsubg g*))))
+
 (defn ->node [node*]
   (let [info (aginfo node*)
         coord (read-field info "coord")]
@@ -462,3 +468,36 @@
   (into []
         (map ->edge)
         (edge-eduction g*)))
+
+(defn ->text-label [text-label*]
+  (letfn [(->str [^com.sun.jna.ptr.ByteByReference p]
+            (when p
+              (-> p
+                  .getPointer
+                  (.getString 0 "utf-8")))) ]
+   (when text-label*
+     (merge
+      {:pos (->pointf (:pos text-label*))
+       :dim (->pointf (:dimen text-label*))}
+      (when-let [text (:text text-label*)]
+        {:text (->str text)})
+      (when-let [fontname (:fontname text-label*)]
+        {:fontname (->str fontname)})))))
+
+(declare ->subgraphs)
+(defn ->subgraph [subgraph*]
+  (let [info (aginfo subgraph*)]
+    (println info)
+    (println (:label info))
+    (merge
+     {:bounding-box (->boxf (read-field info "bb"))
+      :subgraphs (->subgraphs subgraph*)}
+     (when-let [label* (:label info)]
+       {:label (->text-label label*)}))))
+
+(defn ->subgraphs [g*]
+  (into []
+        (map ->subgraph)
+        (subgraph-eduction g*)))
+
+

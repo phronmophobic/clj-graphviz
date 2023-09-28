@@ -136,7 +136,8 @@
 
        (let [graph-layout
              {:nodes (gv/->nodes g*)
-              :edges (gv/->edges g*)}]
+              :edges (gv/->edges g*)
+              :subgraphs (gv/->subgraphs g*)}]
          (gv/gvFreeLayout gvc g*)
          (gv/gvFreeContext gvc)
          graph-layout)))))
