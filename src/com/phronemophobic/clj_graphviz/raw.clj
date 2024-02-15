@@ -241,7 +241,8 @@
    (fn [node* [k v]]
      (when-not (get-in default-attributes [:node k])
        (throw (ex-info "Node attributes must have defaults."
-                       {:node node})))
+                       {:node node
+                        :attribute k})))
      (agset node* (name k) v)
      node*)
    node*
