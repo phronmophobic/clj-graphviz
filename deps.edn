@@ -2,9 +2,7 @@
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         net.java.dev.jna/jna {:mvn/version "5.13.0"}
         com.rpl/specter {:mvn/version "1.1.4"}
-        com.phronemophobic/clong {:mvn/version "1.0"
-                                  ;; :local/root "../clong"
-                                  }}
+        com.phronemophobic/clong {:mvn/version "1.4"}}
  :aliases
  {
 
@@ -57,7 +55,7 @@
                                         ;;:local/root "../clerk"
                                         }
                 com.phronemophobic.membrane/skialib-macosx-aarch64 { :mvn/version "0.12-beta"
-                                                                    ;;:local/root "../membrane2/csource/macos-aarch64"
+                                                                    ;;:local/root "../membrane/csource/macos-aarch64"
                                                                     }
                 com.phronemophobic.cljonda/graphviz-darwin-aarch64 {:mvn/version "2.50.0-0.9.5"}
 
