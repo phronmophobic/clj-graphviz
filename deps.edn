@@ -1,8 +1,8 @@
 {:paths ["src" "resources"]
- :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}
         net.java.dev.jna/jna {:mvn/version "5.13.0"}
         com.rpl/specter {:mvn/version "1.1.4"}
-        com.phronemophobic/clong {:mvn/version "1.4"}}
+        com.phronemophobic/clong {:mvn/version "1.4.3"}}
  :aliases
  {
 
