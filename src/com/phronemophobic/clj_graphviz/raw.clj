@@ -221,6 +221,40 @@
 (def AGINEDGE 3)
 (def AGEDGE AGOUTEDGE)
 
+(defn aginedge? [edge]
+  ;; derived from agtype
+  (let [tag (bit-and 2r11
+                     (.getByte ^Pointer edge 0))]
+    (case tag
+      2 false
+      3 true)))
+
+
+(def ^:private
+  agedge-size
+  (->> api
+       :structs
+       (some #(when (= (keyword "clong" "Agedge_s")
+                       (:id %))
+                %))
+       :size-in-bytes))
+
+(defn agtail [edge]
+  (let [ptr (if (aginedge? edge)
+              edge
+              ;; yuck
+              (Pointer. (+ (Pointer/nativeValue edge) agedge-size)))
+        e* (Structure/newInstance com.phronemophobic.clj_graphviz.raw.structs.Agedge_s ptr)]
+    (read-field e* "node")))
+
+(defn aghead [edge]
+  (let [ptr (if (aginedge? edge)
+             ;; yuck
+              (Pointer. (- (Pointer/nativeValue edge) agedge-size))
+             edge)
+        e* (Structure/newInstance com.phronemophobic.clj_graphviz.raw.structs.Agedge_s ptr)]
+    (read-field e* "node")))
+
 (def ^:private kw->node-type
   {:node AGNODE
    :graph AGRAPH
@@ -461,8 +495,12 @@
      :beziers (mapv ->bezier bezier-arr)}))
 
 (defn ->edge [edge*]
-  (let [info (aginfo edge*)]
-    (->splines (read-field info "spl"))))
+  (let [info (aginfo edge*)
+        from* (agtail edge*)
+        to* (aghead edge*)]
+    (-> (->splines (read-field info "spl"))
+        (assoc :from (agnameof from*)
+               :to (agnameof to*)))))
 
 
 (defn ->edges [g*]
