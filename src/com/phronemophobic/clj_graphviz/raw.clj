@@ -526,8 +526,6 @@
 (declare ->subgraphs)
 (defn ->subgraph [subgraph*]
   (let [info (aginfo subgraph*)]
-    (println info)
-    (println (:label info))
     (merge
      {:bounding-box (->boxf (read-field info "bb"))
       :subgraphs (->subgraphs subgraph*)}
