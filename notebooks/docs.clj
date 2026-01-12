@@ -220,7 +220,7 @@
 
 ;; ### Clusters
 
-;; Clusters are special types of subgraphs. Subgraphs can be specied as clusters in two ways:
+;; Clusters are special types of subgraphs. Subgraphs can be specified as clusters in two ways:
 ;; - implicitly, by giving the subgraph an id that starts with "cluster"
 ;; - explicitly, by setting the default graph attribute, "cluster", to "true".
 
